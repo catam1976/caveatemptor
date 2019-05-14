@@ -2,7 +2,10 @@ package ro.clovertech.backend.model;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import java.math.BigDecimal;
+import java.util.Collection;
 import java.util.Date;
 
 @Entity
@@ -16,15 +19,18 @@ public class Item {
 
     private BigDecimal initialPrice;
 
-    private BigDecimal reservePrice;
+    private BigDecimal reservedPrice;
 
     private Date startDate;
 
     private Date endDate;
 
-    private ItemState itemState;
+    private ItemState state;
 
     private Date approvalDate;
+
+    @ManyToOne
+    private Collection<Category> categories;
 
     public Long getId() {
         return id;
@@ -59,11 +65,11 @@ public class Item {
     }
 
     public BigDecimal getReservePrice() {
-        return reservePrice;
+        return reservedPrice;
     }
 
-    public void setReservePrice(BigDecimal reservePrice) {
-        this.reservePrice = reservePrice;
+    public void setReservePrice(BigDecimal reservedPrice) {
+        this.reservedPrice = reservedPrice;
     }
 
     public Date getStartDate() {
@@ -82,12 +88,12 @@ public class Item {
         this.endDate = endDate;
     }
 
-    public ItemState getItemState() {
-        return itemState;
+    public ItemState getState() {
+        return state;
     }
 
-    public void setItemState(ItemState itemState) {
-        this.itemState = itemState;
+    public void setState(ItemState state) {
+        this.state = state;
     }
 
     public Date getApprovalDate() {

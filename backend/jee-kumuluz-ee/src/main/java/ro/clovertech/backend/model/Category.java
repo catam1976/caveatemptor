@@ -10,7 +10,7 @@ public class Category {
 
     private String name;
 
-    @OneToMany
+    @ManyToMany(mappedBy = "categories")
     private Collection<Item> items;
 
     @ManyToOne(fetch = FetchType.LAZY)
