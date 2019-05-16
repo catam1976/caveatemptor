@@ -1,16 +1,22 @@
 package ro.clovertech.backend.model;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Date;
 
 @Entity
 public class Item {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     private String name;
@@ -21,16 +27,22 @@ public class Item {
 
     private BigDecimal reservedPrice;
 
-    private Date startDate;
+    private LocalDate startDate;
 
-    private Date endDate;
+    private LocalDate endDate;
 
     private ItemState state;
 
-    private Date approvalDate;
+    private LocalDate approvalDate;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User soldBy;
+
+    @ManyToMany
     private Collection<Category> categories;
+
+    @OneToMany(mappedBy = "item")
+    private Collection<Comment> comments;
 
     public Long getId() {
         return id;
@@ -72,19 +84,19 @@ public class Item {
         this.reservedPrice = reservedPrice;
     }
 
-    public Date getStartDate() {
+    public LocalDate getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(Date startDate) {
+    public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
     }
 
-    public Date getEndDate() {
+    public LocalDate getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(Date endDate) {
+    public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
     }
 
@@ -96,11 +108,39 @@ public class Item {
         this.state = state;
     }
 
-    public Date getApprovalDate() {
-        return approvalDate;
+    public BigDecimal getReservedPrice() {
+        return reservedPrice;
     }
 
-    public void setApprovalDate(Date approvalDate) {
+    public void setReservedPrice(BigDecimal reservedPrice) {
+        this.reservedPrice = reservedPrice;
+    }
+
+    public Collection<Category> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(Collection<Category> categories) {
+        this.categories = categories;
+    }
+
+    public Collection<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(Collection<Comment> comments) {
+        this.comments = comments;
+    }
+
+    public void setApprovalDate(LocalDate approvalDate) {
         this.approvalDate = approvalDate;
+    }
+
+    public User getSoldBy() {
+        return soldBy;
+    }
+
+    public void setSoldBy(User soldBy) {
+        this.soldBy = soldBy;
     }
 }
