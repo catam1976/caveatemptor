@@ -16,7 +16,7 @@ import java.util.Date;
 @Entity
 public class Item {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;
@@ -43,6 +43,9 @@ public class Item {
 
     @OneToMany(mappedBy = "item")
     private Collection<Comment> comments;
+
+    @OneToMany(mappedBy = "item")
+    private Collection<Bid> bids;
 
     public Long getId() {
         return id;
@@ -142,5 +145,17 @@ public class Item {
 
     public void setSoldBy(User soldBy) {
         this.soldBy = soldBy;
+    }
+
+    public LocalDate getApprovalDate() {
+        return approvalDate;
+    }
+
+    public Collection<Bid> getBids() {
+        return bids;
+    }
+
+    public void setBids(Collection<Bid> bids) {
+        this.bids = bids;
     }
 }

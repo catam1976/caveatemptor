@@ -1,16 +1,22 @@
 package ro.clovertech.backend.model;
 
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
+import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.validation.OverridesAttribute;
 import java.util.Collection;
 
 @Entity
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String firstName;
@@ -30,6 +36,36 @@ public class User {
 
     @OneToMany(mappedBy = "soldBy")
     private Collection<Item> soldItems;
+
+    @OneToMany(mappedBy = "placedBy")
+    private Collection<Bid> bids;
+
+    @Embedded
+    @AttributeOverrides( {
+            @AttributeOverride(name="street", column=@Column(name="home_address_street")),
+            @AttributeOverride(name="zipCode", column=@Column(name="home_address_zip_code")),
+            @AttributeOverride(name="city", column=@Column(name="home_address_city"))
+    })
+    private Address homeAddress;
+
+    @Embedded
+    @AttributeOverrides( {
+            @AttributeOverride(name="street", column=@Column(name="billing_address_street")),
+            @AttributeOverride(name="zipCode", column=@Column(name="billing_address_zip_code")),
+            @AttributeOverride(name="city", column=@Column(name="billing_address_city"))
+    })
+    private Address billingAddress;
+
+    @Embedded
+    @AttributeOverrides( {
+            @AttributeOverride(name="street", column=@Column(name="shipping_address_street")),
+            @AttributeOverride(name="zipCode", column=@Column(name="shipping_address_zip_code")),
+            @AttributeOverride(name="city", column=@Column(name="shipping_address_city"))
+    })
+    private Address shippingAddress;
+
+    @OneToMany(mappedBy = "user")
+    private Collection<PaymentDetails> paymentDetails;
 
     public Long getId() {
         return id;
@@ -101,5 +137,45 @@ public class User {
 
     public void setSoldItems(Collection<Item> soldItems) {
         this.soldItems = soldItems;
+    }
+
+    public Collection<Bid> getBids() {
+        return bids;
+    }
+
+    public void setBids(Collection<Bid> bids) {
+        this.bids = bids;
+    }
+
+    public Address getHomeAddress() {
+        return homeAddress;
+    }
+
+    public void setHomeAddress(Address homeAddress) {
+        this.homeAddress = homeAddress;
+    }
+
+    public Address getBillingAddress() {
+        return billingAddress;
+    }
+
+    public void setBillingAddress(Address billingAddress) {
+        this.billingAddress = billingAddress;
+    }
+
+    public Address getShippingAddress() {
+        return shippingAddress;
+    }
+
+    public void setShippingAddress(Address shippingAddress) {
+        this.shippingAddress = shippingAddress;
+    }
+
+    public Collection<PaymentDetails> getPaymentDetails() {
+        return paymentDetails;
+    }
+
+    public void setPaymentDetails(Collection<PaymentDetails> paymentDetails) {
+        this.paymentDetails = paymentDetails;
     }
 }

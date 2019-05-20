@@ -7,13 +7,28 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import java.util.Collection;
 
 @Entity
+@NamedQueries({
+        @NamedQuery(
+                name = "rootCategories",
+                query = "select c from Category c where parent is null"
+        ),
+
+        @NamedQuery(
+                name = "subCategories",
+                query = "select c from Category c where parent is not null and parent = : categId"
+        )
+
+}
+)
 public class Category {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;
@@ -24,7 +39,7 @@ public class Category {
     @ManyToOne(fetch = FetchType.LAZY)
     private Category parent;
 
-    @OneToMany(mappedBy = "parent")
+    @OneToMany(mappedBy = "categories")
     private Collection<Item> children;
 
     public Long getId() {

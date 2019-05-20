@@ -6,27 +6,24 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.Collection;
 
 @Entity
-public class Comment {
+public class Bid {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String text;
+    private BigDecimal amount;
 
     private LocalDate creationDate;
-
-    private int rating;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Item item;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private User owner;
+    private User placedBy;
 
     public Long getId() {
         return id;
@@ -36,12 +33,12 @@ public class Comment {
         this.id = id;
     }
 
-    public String getText() {
-        return text;
+    public BigDecimal getAmount() {
+        return amount;
     }
 
-    public void setText(String text) {
-        this.text = text;
+    public void setAmount(BigDecimal amount) {
+        this.amount = amount;
     }
 
     public LocalDate getCreationDate() {
@@ -52,14 +49,6 @@ public class Comment {
         this.creationDate = creationDate;
     }
 
-    public int getRating() {
-        return rating;
-    }
-
-    public void setRating(int rating) {
-        this.rating = rating;
-    }
-
     public Item getItem() {
         return item;
     }
@@ -68,11 +57,11 @@ public class Comment {
         this.item = item;
     }
 
-    public User getOwner() {
-        return owner;
+    public User getPlacedBy() {
+        return placedBy;
     }
 
-    public void setOwner(User owner) {
-        this.owner = owner;
+    public void setPlacedBy(User placedBy) {
+        this.placedBy = placedBy;
     }
 }
