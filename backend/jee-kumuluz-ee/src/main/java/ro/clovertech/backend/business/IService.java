@@ -6,9 +6,15 @@ public interface IService {
     /**
      * It gets all childs of category identified by parentCategory.
      *
-     * @param parentCategory parent category id; it may be null
-     *
      * @return child categories
      */
-    List<CategoryTO> getCategories(Long parentCategory);
+    List<CategoryTO> getCategories();
+
+    /**
+     * It creates a category.
+     *
+     * @param categoryTO the category.
+     * @return the new category id
+     */
+    long createCategory(CategoryTO categoryTO) throws CaveatEmptorException;
 }

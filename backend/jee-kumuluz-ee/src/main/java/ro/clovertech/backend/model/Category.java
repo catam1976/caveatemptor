@@ -1,5 +1,7 @@
 package ro.clovertech.backend.model;
 
+import ro.clovertech.backend.business.CategoryTO;
+
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -15,15 +17,9 @@ import java.util.Collection;
 @Entity
 @NamedQueries({
         @NamedQuery(
-                name = "rootCategories",
-                query = "select c from Category c where parent is null"
-        ),
-
-        @NamedQuery(
-                name = "subCategories",
-                query = "select c from Category c where parent is not null and parent = : categId"
+                name = "allCategories",
+                query = "select c from Category c"
         )
-
 }
 )
 public class Category {
@@ -81,4 +77,14 @@ public class Category {
     public void setChildren(Collection<Item> children) {
         this.children = children;
     }
+
+    public static Category convert(CategoryTO categoryTO) {
+        Category category = new Category();
+
+        category.setId(categoryTO.getId());
+        category.setName(categoryTO.getName());
+
+        return category;
+    }
+
 }

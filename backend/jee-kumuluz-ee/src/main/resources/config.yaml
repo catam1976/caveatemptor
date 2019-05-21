@@ -1,0 +1,15 @@
+kumuluzee:
+  name: caveatemptor
+  version: 1.0.0
+  server:
+    show-server-info: false
+    context-path: /caveatemptor
+    http:
+      port: 8080
+  datasources:
+    - jndi-name: jdbc/CaveatEmptorDS
+      connection-url: jdbc:mysql://localhost:3306/caveatemptor
+      username: root
+      password: 12345678
+      pool:
+        max-size: 20

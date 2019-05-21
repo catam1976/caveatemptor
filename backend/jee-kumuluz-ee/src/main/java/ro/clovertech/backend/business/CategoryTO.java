@@ -5,16 +5,18 @@ import ro.clovertech.backend.model.Category;
 import java.util.List;
 
 public class CategoryTO {
-    private long id;
+    private Long id;
     private String name;
+
+    private CategoryTO parent;
 
     private List<CategoryTO> subcategories;
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -32,6 +34,14 @@ public class CategoryTO {
 
     public void setSubcategories(List<CategoryTO> subcategories) {
         this.subcategories = subcategories;
+    }
+
+    public CategoryTO getParent() {
+        return parent;
+    }
+
+    public void setParent(CategoryTO parent) {
+        this.parent = parent;
     }
 
     public static CategoryTO convert(Category category) {
