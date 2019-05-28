@@ -6,10 +6,37 @@ kumuluzee:
     context-path: /caveatemptor
     http:
       port: 8080
-  datasources:
+  xa-datasources:
     - jndi-name: jdbc/CaveatEmptorDS
-      connection-url: jdbc:mysql://localhost:3306/caveatemptor
+      xa-datasource-class: org.mariadb.jdbc.MariaDbPoolDataSource
       username: root
       password: 12345678
       pool:
-        max-size: 20
+        transaction-isolation: 2 #READ_COMMITED
+      props:
+        server-name: localhost
+        port-number: 3306
+        database-name: caveatemptor
+
+#  datasources:
+#    - jndi-name: jdbc/CaveatEmptorDS
+#      connection-url: jdbc:mariadb://localhost:3306/caveatemptor
+#      username: root
+#      password: 12345678
+#      pool:
+#        auto-commit: false
+#        connection-timeout: 30000
+#        idle-timeout: 600000
+#        max-lifetime: 1800000
+#        min-idle: null
+#        max-size: 10
+#        name: CaveatEmptorDS
+#        initialization-fail-timeout: 1
+#        isolate-internal-queries: false
+#        allow-pool-suspension: false
+#        read-only: false
+#        register-mbeans: false
+#        connection-init-sql: null
+#        transaction-isolation: 2 #READ_COMMITED
+#        validation-timeout: 5000
+#        leak-detection-threshold: 0

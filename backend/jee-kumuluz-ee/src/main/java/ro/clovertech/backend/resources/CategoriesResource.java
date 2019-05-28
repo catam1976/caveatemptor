@@ -12,6 +12,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
@@ -27,12 +28,16 @@ public class CategoriesResource {
     @Context
     private UriInfo uriInfo;
 
+    @Context
+    private HttpHeaders httpHeaders;
+
     @Inject
     private IService service;
 
     @GET
     public Response getCategories() {
         List<CategoryTO> rootCategories = service.getCategories();
+
         return Response.ok(rootCategories).build();
     }
 
@@ -49,7 +54,11 @@ public class CategoriesResource {
             ).build();
 
         } catch (CaveatEmptorException e) {
-            return Response.status(Response.Status.BAD_REQUEST.getStatusCode(), e.getMessage()).build();
+            return Response
+                    .status(Response.Status.BAD_REQUEST.getStatusCode())
+                    .entity(e.getMessage())
+                    .type(MediaType.TEXT_PLAIN)
+                    .build();
         }
 
     }

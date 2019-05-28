@@ -12,6 +12,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import java.util.ArrayList;
 import java.util.Collection;
 
 @Entity
@@ -35,8 +36,8 @@ public class Category {
     @ManyToOne(fetch = FetchType.LAZY)
     private Category parent;
 
-    @OneToMany(mappedBy = "categories")
-    private Collection<Item> children;
+    @OneToMany(mappedBy = "parent")
+    private Collection<Category> children;
 
     public Long getId() {
         return id;
@@ -68,13 +69,17 @@ public class Category {
 
     public void setParent(Category parent) {
         this.parent = parent;
+        if (this.parent.children == null) {
+            this.parent.children = new ArrayList<>();
+        }
+        this.parent.children.add(parent);
     }
 
-    public Collection<Item> getChildren() {
+    public Collection<Category> getChildren() {
         return children;
     }
 
-    public void setChildren(Collection<Item> children) {
+    public void setChildren(Collection<Category> children) {
         this.children = children;
     }
 

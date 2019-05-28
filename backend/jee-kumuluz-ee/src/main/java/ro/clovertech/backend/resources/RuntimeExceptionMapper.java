@@ -1,5 +1,6 @@
 package ro.clovertech.backend.resources;
 
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
@@ -14,6 +15,11 @@ public class RuntimeExceptionMapper implements ExceptionMapper<RuntimeException>
     public Response toResponse(RuntimeException exception) {
         logger.log(Level.SEVERE, exception.getMessage(), exception);
 
-        return Response.serverError().build();
+        return Response
+                .serverError()
+                .entity("internal error")
+                .type(MediaType.TEXT_PLAIN)
+                .build();
     }
+
 }
